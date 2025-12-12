@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav class="top-nav" role="navigation" aria-label="Primary">
+        <div class="nav-inner">
+            <a class="nav-brand" href="#">P.BINNITH REDDY</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#internships">Internships</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+        </div>
+    </nav>
     <header class="hero">
         <h1>P.BINNITH REDDY</h1>
         <p class="tagline">Automation Engineer | n8n Specialist | Workflow Automation Expert</p>
@@ -38,13 +53,17 @@
         </svg>
     </header>
 
-    <section id="about" class="content-section">
-        <h2>About Me</h2>
+    <main role="main">
+
+    <section id="about" class="content-section" data-section="about" aria-labelledby="about-heading">
+        <h2 id="about-heading">About Me</h2>
         <p>I am passionate about designing and implementing intelligent workflow automation solutions using n8n and modern low-code platforms. With expertise in API integration, process optimization, and automation best practices, I help organizations streamline operations and reduce manual overhead.</p>
     </section>
 
-    <section id="projects" class="content-section">
-        <h2>Projects</h2>
+    <div class="divider" aria-hidden="true"></div>
+
+    <section id="projects" class="content-section" data-section="projects" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
         <ul>
             <li>
                 <strong>Fake News Detection System</strong>
@@ -57,8 +76,10 @@
         </ul>
     </section>
 
-    <section id="skills" class="content-section">
-        <h2>Core Competencies</h2>
+    <div class="divider" aria-hidden="true"></div>
+
+    <section id="skills" class="content-section" data-section="skills" aria-labelledby="skills-heading">
+        <h2 id="skills-heading">Core Competencies</h2>
         <div class="skills-grid">
             <span class="skill">n8n</span>
             <span class="skill">Workflow Automation</span>
@@ -69,9 +90,12 @@
             <span class="skill">Web Development (HTML/CSS)</span>
             <span class="skill">Low-Code Platforms</span>
         </div>
+    </section>
 
-        <section id="experience" class="content-section">
-            <h2>Professional Experience</h2>
+    <div class="divider" aria-hidden="true"></div>
+
+    <section id="experience" class="content-section" data-section="experience" aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Professional Experience</h2>
             <div class="experience-item">
                 <h3>Automation Engineer</h3>
                 <p class="company">Company Name | <span class="duration">Jan 2024 - Present</span></p>
@@ -92,8 +116,10 @@
             </div>
         </section>
 
-        <section id="internships" class="content-section">
-            <h2>Internships</h2>
+        <div class="divider" aria-hidden="true"></div>
+
+        <section id="internships" class="content-section" data-section="internships" aria-labelledby="internships-heading">
+            <h2 id="internships-heading">Internships</h2>
             <div class="internship-item">
                 <h3>Automation & AI Intern</h3>
                 <p class="company">Tech Solutions Inc. | <span class="duration">Mar 2023 - May 2023</span></p>
@@ -114,8 +140,10 @@
             </div>
         </section>
 
-        <section id="certifications" class="content-section">
-            <h2>Certifications & Training</h2>
+        <div class="divider" aria-hidden="true"></div>
+
+        <section id="certifications" class="content-section" data-section="certifications" aria-labelledby="certifications-heading">
+            <h2 id="certifications-heading">Certifications & Training</h2>
             <div class="certification-item">
                 <h4>n8n Advanced Workflow Automation</h4>
                 <p><span class="issuer">n8n Academy</span> | <span class="date">2024</span></p>
@@ -133,9 +161,12 @@
                 <p><span class="issuer">IBM / Coursera</span> | <span class="date">2022</span></p>
             </div>
         </section>
-    </section>
 
-    <footer id="contact">
+        <div class="divider" aria-hidden="true"></div>
+
+        </main>
+
+        <footer id="contact" role="contentinfo">
         <section class="content-section footer-content">
             <h2>Get in Touch</h2>
             <div class="contact-links">
@@ -148,5 +179,6 @@
             <p>&copy; 2024 P.BINNITH REDDY. All rights reserved. | Designed for Professional Excellence</p>
         </div>
     </footer>
+    <script src="style.js"></script>
 </body>
 </html>

@@ -8,24 +8,59 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--color-text);
+    /* layered subtle background, final look provided by pseudo-element for performance */
     background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     min-height: 100vh;
     padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Decorative ambient overlay behind content */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    /* subtle, desaturated ambient overlay to add depth without heavy blue */
+    background-image:
+        radial-gradient(900px 420px at 12% 18%, rgba(42,114,125,0.045), transparent 12%),
+        radial-gradient(700px 360px at 85% 80%, rgba(16,32,40,0.04), transparent 14%),
+        linear-gradient(120deg, rgba(255,255,255,0.015), rgba(255,255,255,0.00));
+    opacity: 0.98;
+    transform: translateZ(0);
 }
 
 :root {
-    /* Formal, professional color palette */
-    --bg-gradient-start: #f4f6f8; /* very light gray-blue */
-    --bg-gradient-end: #e9eef6;   /* subtle cool end */
-    --color-primary: #1f4f73;    /* deep blue */
-    --color-secondary: #2a6f97;  /* medium steel blue */
-    --color-accent: #6c5ce7;     /* dignified violet accent */
-    --color-muted: #7d8a9a;      /* muted text */
-    --color-text: #21343a;       /* primary body text */
-    --card-bg: #ffffff;          /* card / section background */
+    /* Formal, desaturated palette (navy + slate + muted teal) */
+    --bg-gradient-start: #f3f6f8; /* soft neutral start */
+    --bg-gradient-end: #e9eef2;   /* soft neutral end */
+    --color-primary: #173241;    /* muted deep navy for headings */
+    --color-secondary: #5b7280;  /* slate-blue secondary */
+    --color-accent: #2aa3a8;     /* muted teal accent */
+    --color-muted: #6b7880;      /* muted text */
+    --color-text: #102027;       /* primary body text (dark slate) */
+    --card-bg: rgba(16,32,40,0.04);          /* subtle neutral card baseline */
+    --card-tint: rgba(42,114,125,0.03);      /* very subtle teal tint for cards */
+    --card-tint-even: rgba(91,114,128,0.02); /* subtle slate tint for even cards */
     --footer-bg: #172024;        /* dark footer */
     --footer-bottom-bg: #0f1416; /* darker footer bottom */
     --soft-shadow: 0 4px 6px rgba(33, 52, 58, 0.08);
+}
+
+/* Dark theme variables (applied when document element has data-theme="dark") */
+:root[data-theme="dark"] {
+    --bg-gradient-start: #0f1720;
+    --bg-gradient-end: #0b1220;
+    --color-primary: #9fb8d6;
+    --color-secondary: #7aa6cf;
+    --color-accent: #8b6ef6;
+    --color-muted: #9aa7b1;
+    --color-text: #e6eef6;
+    --card-bg: #0b1216;
+    --footer-bg: #061014;
+    --footer-bottom-bg: #04090b;
 }
 
 /* Typography */
@@ -60,10 +95,10 @@ a:hover {
 header.hero {
     text-align: center;
     padding: 60px 20px;
-    background: var(--card-bg);
-    border-radius: 10px;
-    box-shadow: var(--soft-shadow);
-    margin-bottom: 40px;
+        background: linear-gradient(135deg, rgba(23,50,65,0.9) 0%, rgba(91,114,128,0.65) 60%);
+        border-radius: 10px;
+        box-shadow: var(--soft-shadow);
+        margin-bottom: 40px;
 }
     /* Hero decorative SVG styling */
     header.hero {
@@ -100,13 +135,111 @@ header.hero {
 
 /* Content Sections */
 .content-section {
-    background: var(--card-bg);
+    /* Subtle tinted cards so large white areas are avoided */
+    background: linear-gradient(180deg, var(--card-tint) 0%, rgba(255,255,255,0.00) 100%);
     padding: 28px;
     margin: 25px auto;
     border-radius: 10px;
     box-shadow: var(--soft-shadow);
     max-width: 900px;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 180ms ease;
+    backdrop-filter: blur(4px) saturate(1.02);
+    border: 1px solid rgba(33,52,58,0.03);
+}
+
+/* Reveal animation for sections */
+.content-section {
+    opacity: 0;
+    transform: translateY(18px) scale(0.998);
+    transition: opacity 520ms cubic-bezier(.2,.9,.2,1), transform 520ms cubic-bezier(.2,.9,.2,1);
+}
+
+.content-section.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Top navigation styles */
+.top-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 40;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border-bottom: 1px solid rgba(33,52,58,0.04);
+}
+
+.nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.nav-brand {
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+.nav-links a:hover {
+    color: var(--color-primary);
+    background: rgba(33,52,58,0.03);
+}
+
+#theme-toggle {
+    background: transparent;
+    border: 0;
+    font-size: 1.05em;
+    cursor: pointer;
+    padding: 8px;
+}
+
+@media (max-width: 820px) {
+    .nav-links { display: none; }
+}
+
+/* Header colors & active link styles for JS-driven actions */
+.top-nav.scrolled {
+    background: linear-gradient(180deg, rgba(23,50,65,0.96), rgba(91,114,128,0.94));
+    border-bottom-color: rgba(255,255,255,0.06);
+}
+
+.top-nav.scrolled .nav-brand {
+    color: #ffffff;
+}
+
+.top-nav.scrolled .nav-links a {
+    color: rgba(255,255,255,0.9);
+}
+
+.nav-links a.active {
+    color: var(--color-accent);
+    background: rgba(42,114,125,0.06);
+    box-shadow: 0 4px 12px rgba(42,114,125,0.04);
+}
+
+/* subtle transition for nav color changes */
+.top-nav, .nav-links a, .nav-brand {
+    transition: color 220ms ease, background 220ms ease, box-shadow 220ms ease;
 }
 
 .content-section:hover {
@@ -124,7 +257,7 @@ header.hero {
     padding-left: 20px;
     border-left: 4px solid var(--color-primary);
     padding: 15px;
-    background: #fafbfc;
+    background: linear-gradient(180deg, rgba(16,32,40,0.02), rgba(243,246,248,0.00));
     border-radius: 6px;
 }
 
@@ -176,8 +309,8 @@ footer p {
 .experience-item, .internship-item, .certification-item {
     margin-bottom: 25px;
     padding: 20px;
-    background: #f9f9f9;
-    border-left: 4px solid #3498db;
+    background: linear-gradient(180deg, rgba(16,32,40,0.02), rgba(243,246,248,0.00));
+    border-left: 4px solid var(--color-secondary);
     border-radius: 5px;
 }
 
@@ -260,9 +393,9 @@ footer.content-section {
 /* Visual enhancements to reduce overall whiteness and add depth */
 /* Stronger hero gradient, alternating section backgrounds, subtle separators */
 header.hero {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 55%, rgba(108,92,231,0.85) 100%);
+    background: linear-gradient(135deg, rgba(23,50,65,0.9) 0%, rgba(91,114,128,0.65) 60%);
     color: white;
-    border-bottom: 4px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 header.hero h1 {
@@ -277,11 +410,11 @@ header.hero h1 {
 
 /* Alternate content-section backgrounds to break up the page */
 .content-section:nth-of-type(odd) {
-    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    background: linear-gradient(180deg, rgba(91,114,128,0.03) 0%, rgba(243,246,248,0.00) 100%);
 }
 
 .content-section:nth-of-type(even) {
-    background: linear-gradient(180deg, #f6f9fc 0%, #eef6fb 100%);
+    background: linear-gradient(180deg, var(--card-tint-even) 0%, rgba(255,255,255,0.00) 100%);
 }
 
 /* Add subtle section separators and slightly larger max width for balance */
@@ -292,14 +425,13 @@ header.hero h1 {
 
 /* Projects accent and cards */
 #projects li {
-    background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
+    background: linear-gradient(180deg, rgba(16,32,40,0.02), rgba(243,246,248,0.00));
     border-left-color: var(--color-accent);
 }
 
-/* Make skill badges slightly darker for contrast */
 .skill {
-    background: linear-gradient(135deg, rgba(42,111,151,0.95) 0%, rgba(108,92,231,0.95) 100%);
-    box-shadow: 0 6px 14px rgba(33,52,58,0.06);
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
+    box-shadow: 0 4px 10px rgba(16,32,40,0.06);
 }
 
 /* Improve card hover */
@@ -323,5 +455,22 @@ header.hero h1 {
 @media (max-width: 720px) {
     header.hero { padding: 40px 16px; }
     h1 { font-size: 1.9em; }
+}
+
+/* Dark-theme adjustments so translucency retains contrast */
+:root[data-theme="dark"] .content-section {
+    background: linear-gradient(180deg, rgba(11,18,22,0.72) 0%, rgba(11,18,22,0.60) 100%);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px) saturate(1.1);
+}
+
+/* Optional accent vignette near the top to give depth */
+header.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(600px 200px at 50% 10%, rgba(0,0,0,0.06), transparent 25%);
+    mix-blend-mode: multiply;
 }
 }
